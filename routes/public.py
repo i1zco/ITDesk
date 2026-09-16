@@ -1,5 +1,10 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
 from models.register import UserCreate
+from database.db import get_db
+from core.security import register_user
+
+from service.register_service import user_add
 
 Public = APIRouter(prefix="/api/v1")
 
@@ -10,5 +15,5 @@ async def home():
 
 
 @Public.post("/auth/register")
-async def register(user: UserCreate):
-    return user.username
+async def register(user: UserCreate, db: AsyncSession = Depends(get_db)):
+    return await user_add(user, db)

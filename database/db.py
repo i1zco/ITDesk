@@ -8,7 +8,7 @@ engine = create_async_engine(settings.database_url, echo=True)
 Session = async_sessionmaker(bind=engine)
 
 async def get_db():
-    async with Session() as session
+    async with Session() as session:
          yield session
 
 
